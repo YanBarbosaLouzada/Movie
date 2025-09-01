@@ -6,17 +6,18 @@
 
 }
 
-
 .navbar {
     position: relative;
 }
 
 
 
-.navbar-two {
-    position: absolute;
-    z-index: 1000;
-    margin-left: 22px;
-    margin-top: 25px;
-   
+.content {
+    flex: 1;
+    overflow-y: auto;
+    padding: 25px;
+    display: flex;
+    flex-direction: column;
+    
+
 }

@@ -1,10 +1,5 @@
-
-.imagens img {
-    width: 134%;
-    height: 61vh;
-    object-fit: cover;
-}
-
-.text{
-    margin-left: 42px;
+.cards{
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
 }
