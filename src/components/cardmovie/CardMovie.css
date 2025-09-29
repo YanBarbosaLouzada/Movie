@@ -1,7 +1,9 @@
-.cards {
+.cards{
     display: flex;
     flex-wrap: wrap;
+    justify-content: center;
     gap: 20px;
+    padding: 20px;
 }
 
 .card-movie {
@@ -11,7 +13,7 @@
     overflow: hidden;
     font-family: 'Segoe UI', Arial, sans-serif;
     position: relative;
-   
+    
 }
 
 .card-movie .main {

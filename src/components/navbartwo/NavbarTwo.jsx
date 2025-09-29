@@ -1,7 +1,8 @@
-import React from 'react'
+import React, { useState } from 'react'
 import './NavbarTwo.css'
-
-function NavbarTwo() {
+import user from '../../assets/user.png'
+function NavbarTwo({ busca, setBusca }) {
+    const [showSearch, setShowSearch] = useState(false);
     return (
         <div className='navbar-two'>
             <div className="navigation">
@@ -9,8 +10,9 @@ function NavbarTwo() {
                 <p>Serie</p>
                 <p>Documentaries</p>
             </div>
+
             <div className="navigation-icons">
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <svg onClick={() => setShowSearch(!showSearch)} width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <path d="M11 19C15.4183 19 19 15.4183 19 11C19 6.58172 15.4183 3 11 3C6.58172 3 3 6.58172 3 11C3 15.4183 6.58172 19 11 19Z" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
                     <path d="M21 21L16.65 16.65" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
                 </svg>
@@ -20,11 +22,23 @@ function NavbarTwo() {
                     <path d="M13.73 21C13.5542 21.3031 13.3019 21.5547 12.9982 21.7295C12.6946 21.9044 12.3504 21.9965 12 21.9965C11.6496 21.9965 11.3054 21.9044 11.0018 21.7295C10.6982 21.5547 10.4458 21.3031 10.27 21" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
                 </svg>
 
+                {showSearch && (
+                    <input
+                        type="text"
+                        value={busca}
+                        onChange={(e) => setBusca(e.target.value)}
+                        placeholder="Buscar filme..."
+                        className="search-input"
+                    />
+                )}
+
                 <div className='img'>
-                    <img></img>
+                    <img src={user} width={30}></img>
                     <p>Osvaldo</p>
                 </div>
+
             </div>
+
         </div>
     )
 }

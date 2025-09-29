@@ -1,40 +1,48 @@
+// importa hooks do React
 import { useEffect, useState } from "react";
+// importa axios para fazer requisições HTTP
 import axios from "axios";
- 
-const API_KEY = "e476dca";
 
-export function useMovieDetails(imdbID) {
-    const [movie, setMovie] = useState(null);
-    const [loading, setLoading] = useState(false);
+// define um hook customizado que recebe o imbdID do filme
+export function useMovieDetails(imbdID) {
+    // estado para guardar os detalhes do filme
+    const [details, setDetails] = useState(null);
+    // estado de carregamento (inicia true porque ainda não buscou nada)
+    const [loading, setLoading] = useState(true);
+    // estado para mensagens de erro
     const [error, setError] = useState(null);
 
+    // useEffect roda sempre que o imbdID mudar
     useEffect(() => {
-        if (!imdbID) return;
+        // se não existir imbdID, não faz nada
+        if (!imbdID) return;
 
-        async function fetchData() {
-            setLoading(true);
-            setError(null);
-
+        // função interna assíncrona que busca os detalhes do filme
+        async function fetchDetails() {
+            setLoading(true);   // marca que começou a carregar
+            setError(null);     // reseta erro anterior
             try {
-                const response = await axios.get(
-                    `https://www.omdbapi.com/?apikey=${API_KEY}&i=${imdbID}`
+                // faz requisição na API OMDb, encodeURIComponent protege caracteres estranhos no ID
+                const response = await axios.get(`
+                    https://www.omdbapi.com/?apikey=e476dca&i=${encodeURIComponent(imbdID)}`
                 );
-
-                if (response.data && response.data.Response !== "False") {
-                    setMovie(response.data);
-                } else {
-                    setMovie(null);
-                    setError("Detalhes não encontrados");
-                }
+                // guarda os dados recebidos no estado details
+                setDetails(response.data);
             } catch (err) {
+                // se der erro, salva a mensagem no estado error
                 setError(err.message);
             } finally {
+                // sempre executa no fim: marca carregamento como falso
                 setLoading(false);
             }
         }
+        // chama a função para buscar os detalhes
+        fetchDetails();
+    }, [imbdID]); // dependência: só roda quando imbdID muda
 
-        fetchData();
-    }, [imdbID]);
-
-    return { movie, loading, error };
+    // retorna os dados do hook para quem for usar
+    return { details, loading, error };
 }
+
+// exporta o hook para ser usado em outros arquivos
+
