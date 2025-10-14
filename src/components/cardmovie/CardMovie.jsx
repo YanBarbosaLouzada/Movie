@@ -4,17 +4,31 @@ import { useMovieDetails } from '../../hooks/useMovieDetails';
 import './CardMovie.css';
 import { useOutletContext } from 'react-router';
 
-function CardMovie() {
+import { addFavorite, removeFavorite } from '../../redux/slices/favoriteSlice';
+import { useDispatch, useSelector } from 'react-redux';
+
+function CardMovie({ movies }) {
     const { busca } = useOutletContext();
-
     const [filmeSelecionado, setFilmeSelecionado] = useState(null);
-
     const { movieData, loading } = useMoviesAPI(busca);
     const { details, loading: loadingDetails } = useMovieDetails(filmeSelecionado?.imdbID);
 
+    const dispatch = useDispatch();
+    const favorites = useSelector((state) => state.favorites);
+
+    const isFavorite = (id) => favorites.some(f => f.imdbID === id);
+
+    const toggleFavorite = (filme) => {
+        if (isFavorite(filme.imdbID)) {
+            dispatch(removeFavorite(filme.imdbID));
+        } else {
+            dispatch(addFavorite(filme));
+        }
+    };
+
     return (
         <div>
-            {loading && <p>Carregando...</p>}
+            {(!movies && loading) && <p>Carregando...</p>}
 
             {movieData && movieData.length > 0 ? (
                 <div className="cards">
@@ -24,8 +38,16 @@ function CardMovie() {
                                 {filme.Poster !== "N/A" && (
                                     <img src={filme.Poster} alt={filme.Title} />
                                 )}
-                                <div className="favorite">
-                                    <span>💜</span>
+                                <div
+                                    className="favorite"
+                                    onClick={(e) => {
+                                        e.stopPropagation(); // impede abrir modal
+                                        toggleFavorite(filme);
+                                    }}
+                                >
+                                    <span style={{ color: isFavorite(filme.imdbID) ? 'red' : 'gray' }}>
+                                        💜
+                                    </span>
                                 </div>
                             </div>
 
@@ -54,22 +76,17 @@ function CardMovie() {
                                     <p><strong>Duração:</strong> {details.Runtime}</p>
                                     <p><strong>Gênero:</strong> {details.Genre}</p>
                                     <p><strong>Nota:</strong> {details.imdbRating}</p>
-                                    <button className='watch-btn'>
-                                        ▶️ Watch now
-                                    </button>
+                                    <button className='watch-btn'>▶️ Watch now</button>
                                 </div>
-                            <p className='modal-plot'>{details.Plot}</p>
+                                <p className='modal-plot'>{details.Plot}</p>
                             </div>
-
-                        ):(
+                        ) : (
                             <p>Detalhes não disponíveis</p>
                         )}
-                        
                         <button className='close-btn' onClick={() => setFilmeSelecionado(null)}>Fechar</button>
                     </div>
                 </div>
             )}
-
         </div>
     );
 }
