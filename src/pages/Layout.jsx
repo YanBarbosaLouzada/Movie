@@ -5,7 +5,7 @@ import './Layout.css'
 import NavbarTwo from '../components/navbartwo/NavbarTwo'
 
 function Layout() {
-  const [busca, setBusca] = useState("");
+  const [busca, setBusca] = useState("One piece");
 
   return (
     <div className='layout'>

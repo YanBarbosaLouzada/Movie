@@ -30,9 +30,9 @@ function CardMovie({ movies }) {
         <div>
             {(!movies && loading) && <p>Carregando...</p>}
 
-            {movieData && movieData.length > 0 ? (
+            {(movies || movieData)?.length > 0 ? (
                 <div className="cards">
-                    {movieData.map((filme) => (
+                    {(movies || movieData).map((filme) => (
                         <div key={filme.imdbID} className="card-movie" onClick={() => setFilmeSelecionado(filme)}>
                             <div className="main">
                                 {filme.Poster !== "N/A" && (
@@ -68,22 +68,25 @@ function CardMovie({ movies }) {
                         {loadingDetails ? (
                             <p>Carregando detalhes...</p>
                         ) : details ? (
-                            <div>
+                            <div className='modal-body'>
                                 <img src={details.Poster} alt={details.Title} />
-                                <div className='modal-info'>
-                                    <h2>{details.Title} ({details.Year})</h2>
-                                    <p><strong>Ano:</strong> {details.Year}</p>
-                                    <p><strong>Duração:</strong> {details.Runtime}</p>
-                                    <p><strong>Gênero:</strong> {details.Genre}</p>
-                                    <p><strong>Nota:</strong> {details.imdbRating}</p>
-                                    <button className='watch-btn'>▶️ Watch now</button>
+                                <div>
+                                    <h2>{details.Title}</h2>
+                                    <div className='modal-info'>
+                                        <p> {details.Year}</p>
+                                        <p> {details.Genre}</p>
+                                        <p> {details.Runtime}</p>
+                                    </div>
+                                    <div>
+                                        <p className='modal-plot'>{details.Plot}</p>
+                                        <button className='watch-btn'> Watch now</button>
+                                    </div>
                                 </div>
-                                <p className='modal-plot'>{details.Plot}</p>
+                                <p>⭐{details.imdbRating}/10</p>
                             </div>
                         ) : (
                             <p>Detalhes não disponíveis</p>
                         )}
-                        <button className='close-btn' onClick={() => setFilmeSelecionado(null)}>Fechar</button>
                     </div>
                 </div>
             )}

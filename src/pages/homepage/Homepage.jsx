@@ -2,15 +2,17 @@ import React from 'react'
 import './Homepage.css'
 import CardMovie from '../../components/cardmovie/CardMovie'
 import { useMoviesAPI } from '../../hooks/UseMoveApi'
+import { useOutletContext } from 'react-router';
 
 function Homepage() {
-  const { movieData, loading, error } = useMoviesAPI('hero')
+  const { busca } = useOutletContext();
+  const { movieData, loading, error } = useMoviesAPI(busca);
 
   if (loading) return <p>Carregando...</p>
   if (error) return <p>{error}</p>
 
   // Filme destaque = primeiro da lista
-  const filmeDestaque = movieData?.length > 0 ? movieData[0] : null
+  const filmeDestaque = movieData?.length ? movieData[0] : null
 
   return (
     <div className="homepage-content">

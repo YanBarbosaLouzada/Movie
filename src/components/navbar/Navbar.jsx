@@ -19,7 +19,7 @@ function Navbar() {
                 <nav className='menu'>
                     <div className='menu-icons-top'>
                         <Link to="/"><FaHome size={20} /> Home</Link>
-                        <Link to="/"><FaHeart size={20} /> Favorites</Link>
+                        <Link to="/favoritos"><FaHeart size={20} /> Favorites</Link>
                         <Link to="/"><FaChartLine size={20} /> Trending</Link>
                         <Link to="/"><FaCalendarAlt size={20} /> Coming soon</Link>
                     </div>

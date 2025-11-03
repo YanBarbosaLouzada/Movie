@@ -10,8 +10,6 @@ const favoriteSlice = createSlice({
             if (!exists) {
                 state.push(movie);
                 console.log("Adicionado aos favoritos:", movie);
-            
-                
             }
         },
         removeFavorite: (state, action) => {

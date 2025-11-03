@@ -28,3 +28,10 @@
     flex-direction: row;
     gap: 12px;
 }
+
+.search-input{
+    padding: 10px 12px;
+    border-radius: 8px;
+    border: none;
+    outline: none;
+}
