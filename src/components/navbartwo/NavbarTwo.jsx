@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import './NavbarTwo.css'
-import user from '../../assets/'
+import user from '../../assets/user.png'
 function NavbarTwo({ busca, setBusca }) {
     const [showSearch, setShowSearch] = useState(false);
     return (
