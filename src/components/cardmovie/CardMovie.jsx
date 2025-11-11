@@ -6,10 +6,12 @@ import { useOutletContext } from 'react-router';
 
 import { addFavorite, removeFavorite } from '../../redux/slices/favoriteSlice';
 import { useDispatch, useSelector } from 'react-redux';
-
+import Popup from '../popup/Popup';
 function CardMovie({ movies }) {
     const { busca } = useOutletContext();
     const [filmeSelecionado, setFilmeSelecionado] = useState(null);
+    const [mostrar, setMostrar] = useState(false);
+    const [tipo, setTipo] = useState("");
     const { movieData, loading } = useMoviesAPI(busca);
     const { details, loading: loadingDetails } = useMovieDetails(filmeSelecionado?.imdbID);
 
@@ -25,6 +27,7 @@ function CardMovie({ movies }) {
             dispatch(addFavorite(filme));
         }
     };
+
 
     return (
         <div>
@@ -43,6 +46,9 @@ function CardMovie({ movies }) {
                                     onClick={(e) => {
                                         e.stopPropagation(); // impede abrir modal
                                         toggleFavorite(filme);
+                                        setTipo(isFavorite(filme.imdbID) ? "erro" : "sucesso");
+                                        setMostrar(true);
+                                        
                                     }}
                                 >
                                     <span style={{ color: isFavorite(filme.imdbID) ? 'red' : 'gray' }}>
@@ -90,6 +96,14 @@ function CardMovie({ movies }) {
                     </div>
                 </div>
             )}
+
+            <Popup
+                mensagem={tipo === "sucesso" ? "Filme adicionado aos favoritos!" : "Filme removido dos favoritos!"}
+                tipo={tipo}
+                mostrar={mostrar}
+                onClose={() => setMostrar(false)}
+            />
+
         </div>
     );
 }
